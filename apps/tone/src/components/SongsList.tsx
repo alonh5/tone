@@ -45,6 +45,7 @@ export default function SongList({ songs }: { songs: Song[] }) {
                 ? 'bg-green-500 hover:bg-green-600'
                 : 'bg-blue-500 hover:bg-blue-600'
                 }`}
+              disabled={currentSong === song.name}
             >
               <img src={currentSong === song.name ? "/playing.ico" : "/play.ico"} alt="Icon" width="20px" height="20px" />
             </button>
@@ -52,6 +53,7 @@ export default function SongList({ songs }: { songs: Song[] }) {
               id="pause-button"
               onClick={() => pauseSong(song)}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              disabled={currentSong !== song.name}
             >
               <img src="/pause.ico" alt="Icon" width="20px" height="20px" />
             </button>
