@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 export interface Song {
   name: string
+  filename: string
   listens: number
 }
 
@@ -53,7 +54,8 @@ export default function SongList({ songs }: { songs: Song[] }) {
 
           {currentSong === song.name && (
             <audio
-              src={'${song.name}'}
+              src={song.filename}
+              controls
               autoPlay
               onEnded={() => setCurrentSong(null)}
             />

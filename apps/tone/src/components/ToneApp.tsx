@@ -5,11 +5,13 @@ import { Song } from "./SongsList";
 
 const song1: Song = {
   name: "imagine",
+  filename: "./music/song1.mp3",
   listens: 0,
 };
 
 const song2: Song = {
   name: "ים השיבולים",
+  filename: "./music/song1.mp3",
   listens: 0,
 };
 
