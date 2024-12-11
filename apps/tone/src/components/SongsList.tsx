@@ -30,7 +30,7 @@ export default function SongList({ songs }: { songs: Song[] }) {
   }
 
   return (
-    <ul className="space-y-4 w-full max-w-2xl mx-auto bg-gray-900 shadow-lg p-6 rounded-lg">
+    <ul className="space-y-4 w-full max-w-5xl mx-auto bg-gray-900 shadow-lg p-6 rounded-lg">
       {songs.map((song) => (
         <li key={song.name} className="flex items-center justify-between bg-gray-800 shadow-md p-4 rounded-lg">
           <div>
@@ -41,27 +41,25 @@ export default function SongList({ songs }: { songs: Song[] }) {
             <button
               id="play-button"
               onClick={() => playSong(song)}
-              className={`px-4 py-2 rounded text-white transition-colors ${
-                currentSong === song.name
-                  ? 'bg-green-500 hover:bg-green-600'
-                  : 'bg-blue-500 hover:bg-blue-600'
-              }`}
+              className={`px-4 py-2 rounded text-white transition-colors ${currentSong === song.name
+                ? 'bg-green-500 hover:bg-green-600'
+                : 'bg-blue-500 hover:bg-blue-600'
+                }`}
             >
-              {currentSong === song.name ? 'Playing...' : 'Play'}
+              <img src={currentSong === song.name ? "./public/playing.ico" : "./public/play.ico"} alt="Icon" width="20px" height="20px" />
             </button>
             <button
               id="pause-button"
               onClick={() => pauseSong(song)}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-              Pause
+              <img src="./public/pause.ico" alt="Icon" width="20px" height="20px" />
             </button>
           </div>
 
           {currentSong === song.name && (
             <audio
               src={song.filename}
-              controls
               autoPlay
               onEnded={() => setCurrentSong(null)}
             />
