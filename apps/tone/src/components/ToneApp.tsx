@@ -3,14 +3,10 @@ import UploadForm from "./UploadSong";
 import SongList from "./SongsList";
 import { Song } from "./SongsList";
 
-const SongsList = () => <div>songs screen</div>
-const UploadSong = () => <div>upload screen</div>
-
 const song: Song = {
   name: "Imagine",
   listens: 12345,
 };
-
 
 export const ToneApp = () => {
   const [activeScreen, setActiveScreen] = useState('songs-screen');
