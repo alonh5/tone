@@ -30,15 +30,22 @@ export default function SongList({ songs }: { songs: Song[] }) {
   }
 
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-4 w-full max-w-2xl mx-auto bg-gray-900 shadow-lg p-6 rounded-lg">
       {songs.map((song) => (
-        <li key={song.name} className="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
-          <span>{song.name}</span>
+        <li key={song.name} className="flex items-center justify-between bg-gray-800 shadow-md p-4 rounded-lg">
+          <div>
+            <p className="text-lg font-medium" style={{ color: "#a5a5ff" }}>{song.name}</p>
+            <p className="text-sm" style={{ color: "#d1c4ff" }}>Listens: {song.listens}</p>
+          </div>
           <div className="flex items-center space-x-4">
             <button
               id="play-button"
               onClick={() => playSong(song)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className={`px-4 py-2 rounded text-white transition-colors ${
+                currentSong === song.name
+                  ? 'bg-green-500 hover:bg-green-600'
+                  : 'bg-blue-500 hover:bg-blue-600'
+              }`}
             >
               {currentSong === song.name ? 'Playing...' : 'Play'}
             </button>
@@ -49,7 +56,6 @@ export default function SongList({ songs }: { songs: Song[] }) {
             >
               Pause
             </button>
-            <span>Listens: {song.listens}</span>
           </div>
 
           {currentSong === song.name && (
