@@ -13,6 +13,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "fs": "*",
+    "@aws-sdk/s3-request-presigner": "3.709.0",
+    "@aws-sdk/client-s3": "^3.709.0",
+    "@aws-sdk/types": "3.709.0",
     "@dynamic-labs/sdk-react-core": "^4.0.0-alpha.38",
     "@dynamic-labs/starknet": "^4.0.0-alpha.38",
     "@hookform/resolvers": "^3.9.1",

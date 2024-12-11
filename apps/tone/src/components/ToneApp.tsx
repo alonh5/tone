@@ -4,6 +4,7 @@ import { useAccount } from '@starknet-react/core';
 import UploadForm from "./UploadSong";
 import SongList from "./SongsList";
 import { Song } from "./SongsList";
+import { listFiles } from "./s3";
 
 const song1: Song = {
   name: "Song 1",
@@ -17,14 +18,28 @@ const song2: Song = {
   listens: 0,
 };
 
-export const ToneApp = () => {
+export const ToneApp = async () => {
   const starknetWallet = useAccount();
   const [activeScreen, setActiveScreen] = useState('songs-screen');
 
   const onConnectWallet = async () => {
     // TODO: maybe do something here.
-  };
 
+  };
+  //const mysongs = (await listFiles('tone-sw')) ?? [];
+  const mysongs = new Array(2).fill(song1);
+  console.log("1111", mysongs);
+  const songsObjs: Song[] = [];
+  // iterate over the list
+  for (const song of mysongs) {
+    console.log(song);
+    const temp_song: Song = {
+      name: song.fileKey as string, // assuming song has a name property
+      filename: song.presignedUrl, // assuming song has a filename property
+      listens: 0,
+    };
+    songsObjs.push(temp_song);
+  }
   return (
     <div
       className="min-h-screen bg-cover bg-center"
@@ -49,7 +64,7 @@ export const ToneApp = () => {
         </header>
         <section className="bg-gray-900 shadow-lg rounded-lg p-6">
           {activeScreen === "songs-screen" ? (
-            <SongList songs={[song1, song2]} />
+            <SongList songs={songsObjs} />
           ) : (
             <UploadForm />
           )}
