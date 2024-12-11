@@ -4,36 +4,49 @@ import SongList from "./SongsList";
 import { Song } from "./SongsList";
 
 const song1: Song = {
-  name: "imagine",
+  name: "Song 1",
   filename: "./music/song1.mp3",
   listens: 0,
 };
 
 const song2: Song = {
-  name: "ים השיבולים",
-  filename: "./music/song1.mp3",
+  name: "Song 2",
+  filename: "./music/song2.mp3",
   listens: 0,
 };
 
 export const ToneApp = () => {
   const [activeScreen, setActiveScreen] = useState('songs-screen');
 
-  if (activeScreen === 'songs-screen') {
-    return (
-      <main className="container mx-auto p-4">
-        <div>
-          <button onClick={() => setActiveScreen('upload-screen')}>listen to songs</button>
-          <h1 className="text-2xl font-bold mb-4">Upload Music</h1>
-          <UploadForm />
-        </div>
-      </main>
-    );
-  }
   return (
-    <div>
-      <button onClick={() => setActiveScreen('songs-screen')}>upload songs</button>
-      <h1 className="text-2xl font-bold mb-4">My Songs</h1>
-      <SongList songs={[song1, song2]} />
+    <div
+      className="min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/images/music_image.webp')" }}
+    >
+      <main className="container mx-auto p-6 backdrop-blur-md">
+        <header className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold" style={{ color: "#a5a5ff" }}>
+            {activeScreen === "songs-screen" ? "My Songs" : "Upload Music"}
+          </h1>
+          <button
+            onClick={() =>
+              setActiveScreen(
+                activeScreen === "songs-screen" ? "upload-screen" : "songs-screen"
+              )
+            }
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-600 transition"
+          >
+            {activeScreen === "songs-screen" ? "Upload Songs" : "View Songs"}
+          </button>
+        </header>
+        <section className="bg-gray-900 shadow-lg rounded-lg p-6">
+          {activeScreen === "songs-screen" ? (
+            <SongList songs={[song1, song2]} />
+          ) : (
+            <UploadForm />
+          )}
+        </section>
+      </main>
     </div>
   );
 };
