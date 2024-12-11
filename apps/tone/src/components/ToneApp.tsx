@@ -3,19 +3,15 @@ import UploadForm from "./UploadSong";
 import SongList from "./SongsList";
 import { Song } from "./SongsList";
 
-const SongsList = () => <div>songs screen</div>
-const UploadSong = () => <div>upload screen</div>
-
 const song1: Song = {
   name: "imagine",
-  listens: 12,
-};
-
-const song2: Song = {
-  name: "/home/omri/Downloads/song1.mp3",
   listens: 0,
 };
 
+const song2: Song = {
+  name: "ים השיבולים",
+  listens: 0,
+};
 
 export const ToneApp = () => {
   const [activeScreen, setActiveScreen] = useState('songs-screen');
