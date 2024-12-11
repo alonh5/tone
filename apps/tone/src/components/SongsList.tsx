@@ -46,14 +46,14 @@ export default function SongList({ songs }: { songs: Song[] }) {
                 : 'bg-blue-500 hover:bg-blue-600'
                 }`}
             >
-              <img src={currentSong === song.name ? "./public/playing.ico" : "./public/play.ico"} alt="Icon" width="20px" height="20px" />
+              <img src={currentSong === song.name ? "/playing.ico" : "/play.ico"} alt="Icon" width="20px" height="20px" />
             </button>
             <button
               id="pause-button"
               onClick={() => pauseSong(song)}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-              <img src="./public/pause.ico" alt="Icon" width="20px" height="20px" />
+              <img src="/pause.ico" alt="Icon" width="20px" height="20px" />
             </button>
           </div>
 
