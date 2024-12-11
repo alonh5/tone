@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Header } from './Header/Header';
+import { useAccount } from '@starknet-react/core';
 import UploadForm from "./UploadSong";
 import SongList from "./SongsList";
 import { Song } from "./SongsList";
@@ -16,13 +18,19 @@ const song2: Song = {
 };
 
 export const ToneApp = () => {
+  const starknetWallet = useAccount();
   const [activeScreen, setActiveScreen] = useState('songs-screen');
+
+  const onConnectWallet = async () => {
+    // TODO: maybe do something here.
+  };
 
   return (
     <div
       className="min-h-screen bg-cover bg-center"
       style={{ backgroundImage: "url('/images/music_image.webp')" }}
     >
+      <Header wallet={starknetWallet} onConnectWallet={onConnectWallet} />
       <main className="container mx-auto p-6 backdrop-blur-md">
         <header className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold" style={{ color: "#a5a5ff" }}>
