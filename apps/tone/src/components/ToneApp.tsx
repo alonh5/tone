@@ -3,9 +3,14 @@ import UploadForm from "./UploadSong";
 import SongList from "./SongsList";
 import { Song } from "./SongsList";
 
-const song: Song = {
-  name: "Imagine",
-  listens: 12345,
+const song1: Song = {
+  name: "imagine",
+  listens: 0,
+};
+
+const song2: Song = {
+  name: "ים השיבולים",
+  listens: 0,
 };
 
 export const ToneApp = () => {
@@ -25,8 +30,8 @@ export const ToneApp = () => {
   return (
     <div>
       <button onClick={() => setActiveScreen('songs-screen')}>upload songs</button>
-      <h1 className="text-2xl font-bold mb-4">Your Songs</h1>
-      <SongList songs={[song]} />
+      <h1 className="text-2xl font-bold mb-4">My Songs</h1>
+      <SongList songs={[song1, song2]} />
     </div>
   );
 };
