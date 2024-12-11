@@ -1,0 +1,17 @@
+{
+    "name": "streaming",
+    "version": "1.0.0",
+    "description": "A simple Node.js project",
+    "main": "streaming.js",
+    "scripts": {
+        "start": "node streaming.js"
+    },
+    "dependencies": {
+        "aws-sdk": "2.1692.0",
+        "play-sound": "1.1.6",
+        "yargs": "17.7.2"
+    },
+    "devDependencies": {},
+    "author": "starkware",
+    "license": "ISC"
+}
