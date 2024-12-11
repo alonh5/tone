@@ -11,7 +11,8 @@ export default function SongList({ songs }: { songs: Song[] }) {
   const [currentSong, setCurrentSong] = useState<string | null>(null)
 
   const playSong = async (song: Song) => {
-    setCurrentSong(song.name)
+    song.listens += 1;
+    setCurrentSong(song.name);
     try {
       await fetch('/api/listen', {
         method: 'POST',
@@ -39,7 +40,7 @@ export default function SongList({ songs }: { songs: Song[] }) {
           </div>
           {currentSong === song.name && (
             <audio
-              src={`/uploads/${song.name}`}
+              src={'${song.name}'}
               autoPlay
               onEnded={() => setCurrentSong(null)}
             />

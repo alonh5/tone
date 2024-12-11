@@ -6,9 +6,14 @@ import { Song } from "./SongsList";
 const SongsList = () => <div>songs screen</div>
 const UploadSong = () => <div>upload screen</div>
 
-const song: Song = {
-  name: "Imagine",
-  listens: 12345,
+const song1: Song = {
+  name: "imagine",
+  listens: 12,
+};
+
+const song2: Song = {
+  name: "/home/omri/Downloads/song1.mp3",
+  listens: 0,
 };
 
 
@@ -29,8 +34,8 @@ export const ToneApp = () => {
   return (
     <div>
       <button onClick={() => setActiveScreen('songs-screen')}>upload songs</button>
-      <h1 className="text-2xl font-bold mb-4">Your Songs</h1>
-      <SongList songs={[song]} />
+      <h1 className="text-2xl font-bold mb-4">My Songs</h1>
+      <SongList songs={[song1, song2]} />
     </div>
   );
 };
