@@ -1,0 +1,2 @@
+event_manager_integrationtest::test_contract::test_non_registered_song
+event_manager_integrationtest::test_contract::test_add_song
