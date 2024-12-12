@@ -1,12 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-
-export interface Song {
-  name: string
-  filename: string
-  listens: number
-}
+import { Song } from './UploadSong';
 
 export default function SongList({ songs }: { songs: Song[] }) {
   const [currentSong, setCurrentSong] = useState<string | null>(null)
@@ -61,7 +56,7 @@ export default function SongList({ songs }: { songs: Song[] }) {
 
           {currentSong === song.name && (
             <audio
-              src={song.filename}
+              src={URL.createObjectURL(song.file)}
               autoPlay
               onEnded={() => setCurrentSong(null)}
             />
