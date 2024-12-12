@@ -10,8 +10,6 @@ export default function SongList({ songs }: { songs: Song[] }) {
   const starknetWallet = useAccount();
 
   const playSong = async (song: Song) => {
-    song.listens += 1;
-    setCurrentSong(song.name);
     if (!starknetWallet.account) {
       alert("You must connect a wallet first");
       return;
@@ -24,7 +22,10 @@ export default function SongList({ songs }: { songs: Song[] }) {
           song_name: song.name,
         }),
       },
-    ]);
+    ]).then(() => {
+      song.listens += 1;
+      setCurrentSong(song.name);
+    });
   }
 
   const pauseSong = async (song: Song) => {

@@ -37,11 +37,6 @@ export default function UploadForm() {
         };
 
         request.onsuccess = function () {
-            const db = request.result;
-            const transaction = db.transaction("songs", "readwrite");
-            const store = transaction.objectStore("songs");
-            store.add({ ...song });
-
             //@ts-expect-error SOME ERROR
             starknetWallet.account.execute([{
                 contractAddress: '0x027a365a93316a104d48b7662dbb121463e13f06c694ff339e116e095fece4fe',
@@ -49,15 +44,21 @@ export default function UploadForm() {
                 calldata: CallData.compile({
                     song_name: song.name,
                 })
-            }]);
+            }]).then(() => {
+                const db = request.result;
+                const transaction = db.transaction("songs", "readwrite");
+                const store = transaction.objectStore("songs");
+                store.add({ ...song });
 
-            transaction.oncomplete = () => {
-                console.log("Song added successfully");
-            };
 
-            transaction.onerror = (event) => {
-                console.error("Transaction error:", transaction.error);
-            };
+                transaction.oncomplete = () => {
+                    console.log("Song added successfully");
+                };
+
+                transaction.onerror = (event) => {
+                    console.error("Transaction error:", transaction.error);
+                };
+            });
         };
     };
 
