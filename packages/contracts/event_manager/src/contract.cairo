@@ -33,7 +33,7 @@ pub mod song_player_contract {
             .token_dispatcher
             .write(
                 IERC20Dispatcher {
-                    contract_address: 2009894490435840142178314390393166646092438090257831307886760648929397478285
+                    contract_address: 0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d
                         .try_into()
                         .unwrap()
                 }
@@ -46,11 +46,10 @@ pub mod song_player_contract {
         fn play_song(ref self: ContractState, song_name: felt252) {
             let caller = get_caller_address();
             let is_subscribed = self.subscribers.entry(caller).read();
-            if (is_subscribed == 1) {
-                let (owner, plays) = self.song_owners_and_plays.entry(song_name).read();
-                self.song_owners_and_plays.entry(song_name).write((owner, plays + 1));
-                self.total_plays.write(self.total_plays.read() + 1);
-            }
+            assert(is_subscribed == 1, 'unsubscribed user called');
+            let (owner, plays) = self.song_owners_and_plays.entry(song_name).read();
+            self.song_owners_and_plays.entry(song_name).write((owner, plays + 1));
+            self.total_plays.write(self.total_plays.read() + 1);
         }
 
         fn add_song(ref self: ContractState, song_name: felt252) {
@@ -66,7 +65,7 @@ pub mod song_player_contract {
 
         fn collect_payments(ref self: ContractState) {
             let token_dispatcher = self.token_dispatcher.read();
-            let contract_balance = token_dispatcher.balance_of(get_caller_address());
+            let contract_balance = token_dispatcher.balance_of(get_contract_address());
             for i in 0
                 ..self
                     .song_names
@@ -90,7 +89,7 @@ pub mod song_player_contract {
 
             // Charge.
             let token_dispatcher = self.token_dispatcher.read();
-            token_dispatcher.transfer(get_contract_address(), 100.000);
+            token_dispatcher.transfer(get_contract_address(), 1);
         }
     }
 }
