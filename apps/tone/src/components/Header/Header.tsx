@@ -79,7 +79,7 @@ export const Header = ({
                   variant="ghost"
                   size="sm"
                   onClick={openDisconnectDialog}
-                  className="text-gray-300 hover:text-white"
+                  className="text-black hover:text-blue-300"
                 >
                   <LogOut className="h-4 w-4" />
                   <span>Disconnect wallet</span>
