@@ -1,11 +1,12 @@
-import { LogOut } from 'lucide-react';
+import { LogOut, Mail } from 'lucide-react';
 import { Button } from '../ui/button';
 import { DisconnectWalletDialog } from '../Dialogs/DisconnectWalletDialog';
 import { useCallback, useState } from 'react';
 import { SrcPrefix } from '../../utils/consts';
 import { truncateAddress } from '../../utils/string';
-import { UseAccountResult, useDisconnect } from '@starknet-react/core';
+import { useAccount, UseAccountResult, useDisconnect } from '@starknet-react/core';
 import { ConnectWalletButton } from '../ConnectWalletButton/ConnectWalletButton';
+import { CallData } from 'starknet';
 
 export const Header = ({
   onConnectWallet,
@@ -20,6 +21,7 @@ export const Header = ({
   const handleCloseDisconnectDialog = useCallback(() => {
     setIsDisconnectDialogOpen(false);
   }, []);
+  const starknetWallet = useAccount();
 
   const handleDisconnect = useCallback(() => {
     disconnect();
@@ -28,6 +30,20 @@ export const Header = ({
 
   const openDisconnectDialog = () => {
     setIsDisconnectDialogOpen(true);
+  };
+
+  const subscribe = () => {
+    if (!starknetWallet.account) {
+      alert("You must connect a wallet first");
+      return;
+    }
+    starknetWallet.account.execute([
+      {
+        contractAddress: "0x027a365a93316a104d48b7662dbb121463e13f06c694ff339e116e095fece4fe",
+        entrypoint: "subscribe",
+        calldata: CallData.compile({}),
+      },
+    ]);
   };
 
   return (
@@ -45,6 +61,15 @@ export const Header = ({
             </h1>
           </div>
           <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={subscribe}
+              className="text-black hover:text-blue-300"
+            >
+              <Mail className="h-4 w-4 mr-2" />
+              <span>Subscribe</span>
+            </Button>
             {wallet?.isConnected ? (
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
                 <span className="text-sm font-medium" style={{ color: "#d1c4ff" }}>
