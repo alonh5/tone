@@ -89,7 +89,7 @@ pub mod song_player_contract {
 
             // Charge.
             let token_dispatcher = self.token_dispatcher.read();
-            token_dispatcher.transfer(get_contract_address(), 1);
+            token_dispatcher.transfer_from(caller, get_contract_address(), 1000);
         }
     }
 }
