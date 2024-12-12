@@ -1,4 +1,6 @@
+import { useAccount } from "@starknet-react/core";
 import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+import { CallData } from "starknet";
 
 export interface Song {
     name: string;
@@ -14,8 +16,13 @@ export default function UploadForm() {
     const [dragActive, setDragActive] = useState(false);
     const [songs, setSongs] = useState<Song[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const starknetWallet = useAccount();
 
     const saveToIndexedDB = (song: Song) => {
+        if (!starknetWallet.account) {
+            alert("You must connect a wallet first");
+            return;
+        }
         const request = indexedDB.open("SongDatabase", 2);
 
         request.onupgradeneeded = (event) => {
@@ -34,6 +41,15 @@ export default function UploadForm() {
             const transaction = db.transaction("songs", "readwrite");
             const store = transaction.objectStore("songs");
             store.add({ ...song });
+
+            //@ts-expect-error SOME ERROR
+            starknetWallet.account.execute([{
+                contractAddress: '0x027a365a93316a104d48b7662dbb121463e13f06c694ff339e116e095fece4fe',
+                entrypoint: 'add_song',
+                calldata: CallData.compile({
+                    song_name: song.name,
+                })
+            }]);
 
             transaction.oncomplete = () => {
                 console.log("Song added successfully");
@@ -83,7 +99,7 @@ export default function UploadForm() {
         }
 
         const newSong: Song = {
-            name: file.name,
+            name: file.name.substring(0, file.name.lastIndexOf(".")),
             file: file,
             listens: 0,
         };

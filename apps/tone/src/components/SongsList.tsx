@@ -2,22 +2,29 @@
 
 import { useState } from 'react'
 import { Song } from './UploadSong';
+import { useAccount } from '@starknet-react/core';
+import { CallData } from 'starknet';
 
 export default function SongList({ songs }: { songs: Song[] }) {
   const [currentSong, setCurrentSong] = useState<string | null>(null)
+  const starknetWallet = useAccount();
 
   const playSong = async (song: Song) => {
     song.listens += 1;
     setCurrentSong(song.name);
-    try {
-      await fetch('/api/listen', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: song.name }),
-      })
-    } catch (error) {
-      console.error('Error updating listen count:', error)
+    if (!starknetWallet.account) {
+      alert("You must connect a wallet first");
+      return;
     }
+    starknetWallet.account.execute([
+      {
+        contractAddress: "0x027a365a93316a104d48b7662dbb121463e13f06c694ff339e116e095fece4fe",
+        entrypoint: "play_song",
+        calldata: CallData.compile({
+          song_name: song.name,
+        }),
+      },
+    ]);
   }
 
   const pauseSong = async (song: Song) => {
