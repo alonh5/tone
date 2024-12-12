@@ -1,25 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from './Header/Header';
 import { useAccount } from '@starknet-react/core';
-import UploadForm from "./UploadSong";
+import UploadForm, { Song } from "./UploadSong";
 import SongList from "./SongsList";
-import { Song } from "./SongsList";
-
-const song1: Song = {
-  name: "Song 1",
-  filename: "./music/song1.mp3",
-  listens: 0,
-};
-
-const song2: Song = {
-  name: "Song 2",
-  filename: "./music/song2.mp3",
-  listens: 0,
-};
 
 export const ToneApp = () => {
   const starknetWallet = useAccount();
   const [activeScreen, setActiveScreen] = useState('songs-screen');
+  const [songs, setSongs] = useState<Song[]>([]);
+
+  useEffect(() => {
+    const request = indexedDB.open("SongDatabase", 2);
+
+    request.onerror = (event) => {
+      console.error("IndexedDB error:", request.error);
+    };
+
+    request.onsuccess = function () {
+      const db = request.result;
+      const transaction = db.transaction("songs", "readwrite");
+      const store = transaction.objectStore("songs");
+
+      const getAllRequest = store.getAll();
+
+      getAllRequest.onsuccess = (event) => {
+        const songs = (event.target as IDBRequest).result;
+        setSongs(songs);
+      };
+
+      getAllRequest.onerror = (event) => {
+        console.error("Error fetching songs:", getAllRequest.error);
+      };
+
+      transaction.onerror = (event) => {
+        console.error("Transaction error:", transaction.error);
+      };
+    };
+  }, []);
 
   const onConnectWallet = async () => {
     // TODO: maybe do something here.
@@ -49,7 +66,7 @@ export const ToneApp = () => {
         </header>
         <section className="bg-gray-900 shadow-lg rounded-lg p-6">
           {activeScreen === "songs-screen" ? (
-            <SongList songs={[song1, song2]} />
+            <SongList songs={songs} />
           ) : (
             <UploadForm />
           )}
