@@ -39,7 +39,7 @@ export const Header = ({
     }
     starknetWallet.account.execute([
       {
-        contractAddress: "0x027a365a93316a104d48b7662dbb121463e13f06c694ff339e116e095fece4fe",
+        contractAddress: "0x0291508da540a23dd68edb3672590ca2c18f45e7998537f30e8e7701bb679f97",
         entrypoint: "subscribe",
         calldata: CallData.compile({}),
       },
